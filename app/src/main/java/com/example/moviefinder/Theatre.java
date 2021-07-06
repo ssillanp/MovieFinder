@@ -34,6 +34,7 @@ public class Theatre {
     }
 
     public ArrayList<String> parseShows(Document doc){
+        shows.clear();
         NodeList nList = doc.getDocumentElement().getElementsByTagName("Show");
         for (int i = 0; i < nList.getLength(); i++) {
             Node node = nList.item(i);

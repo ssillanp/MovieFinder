@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     Spinner dateSpinner;
     ListView showView;
     FinnKino FK;
+    ArrayAdapter<String> showAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     "&dt=" + date + "&nrOfDays=1";
             System.out.println(showUrl);
             ArrayAdapter<String> showAdapter = new ArrayAdapter<>(this,
-                    android.R.layout.simple_spinner_dropdown_item,
+                    android.R.layout.simple_list_item_1,
                     FK.getTheatre((int) thSpinner.getSelectedItemId()).parseShows(readXML(showUrl)));
             showView.setAdapter(showAdapter);
         }
