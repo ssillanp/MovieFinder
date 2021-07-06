@@ -27,7 +27,7 @@ public class FinnKino {
             Node node = nList.item(i);
             if (node.getNodeType() == Node.ELEMENT_NODE) {
                 Element element = (Element) node;
-                theatres.add(new Theatre(element.getElementsByTagName("ID").item(0).getTextContent(),
+                theatres.add(new Theatre(i, element.getElementsByTagName("ID").item(0).getTextContent(),
                         element.getElementsByTagName("Name").item(0).getTextContent()));
             }
         }
@@ -54,9 +54,9 @@ public class FinnKino {
     }
 
 
-    public Theatre getTheatre(String ID) {
+    public Theatre getTheatre(int index) {
         for (Theatre theatre : theatres) {
-            if (theatre.getID().equals(ID)) {
+            if (theatre.getIndex() == index) {
                 return theatre;
             }
         }
@@ -74,7 +74,7 @@ public class FinnKino {
 
     public ArrayList<String> listDates() {
         ArrayList<String> dateList = new ArrayList<String>();
-        SimpleDateFormat df2 = new SimpleDateFormat("d.M.yyyy");
+        SimpleDateFormat df2 = new SimpleDateFormat("dd.MM.yyyy");
         for (Date date : schDates) {
 //            System.out.println(df2.format(date));
             dateList.add(df2.format(date));
