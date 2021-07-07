@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             System.out.println(showUrl);
             ArrayAdapter<String> showAdapter = new ArrayAdapter<>(this,
                     android.R.layout.simple_list_item_1,
-                    FK.getTheatre((int) thSpinner.getSelectedItemId()).parseShows(readXML(showUrl)));
+                    FK.getTheatre((int) thSpinner.getSelectedItemId()).getShowList(readXML(showUrl)));
             showView.setAdapter(showAdapter);
         }
 
