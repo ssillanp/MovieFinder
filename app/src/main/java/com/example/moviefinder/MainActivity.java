@@ -1,5 +1,6 @@
 package com.example.moviefinder;
 
+import android.content.Intent;
 import android.os.StrictMode;
 import android.text.Editable;
 import android.view.View;
@@ -45,7 +46,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         ArrayAdapter<String> dateAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_dropdown_item, FK.listDates());
         dateSpinner.setAdapter(dateAdapter);
-        showView = (ListView) findViewById(R.id.showList);
         fromTime = (EditText) findViewById(R.id.fromTime);
         toTime = (EditText) findViewById(R.id.toTime);
     }
@@ -55,17 +55,17 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
         if (thSpinner.getSelectedItemId() > 0) {
+            Intent intent = new Intent(this, MainActivityListMovies.class);
             String area = FK.getTheatre((int) thSpinner.getSelectedItemId()).getID();
             String date = dateSpinner.getSelectedItem().toString();
             String showUrl = "https://www.finnkino.fi/xml/Schedule/?area=" + area +
                     "&dt=" + date + "&nrOfDays=1";
             System.out.println(showUrl);
             XMLReader showReader = new XMLReader(showUrl);
-            ArrayAdapter<String> showAdapter = new ArrayAdapter<>(this,
-                    android.R.layout.simple_list_item_1,
+            intent.putStringArrayListExtra("SHOWLIST",
                     FK.getTheatre((int) thSpinner.getSelectedItemId()).getShowList(showReader.getXMLDocument(),
-                            date, fromTime.getText().toString(), toTime.getText().toString()));
-            showView.setAdapter(showAdapter);
+                    date, fromTime.getText().toString(), toTime.getText().toString()));
+            startActivity(intent);
 
 
         }
