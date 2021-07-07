@@ -1,11 +1,9 @@
 package com.example.moviefinder;
 
 import android.os.StrictMode;
+import android.text.Editable;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.Spinner;
+import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import org.w3c.dom.Document;
@@ -25,6 +23,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     Spinner dateSpinner;
     ListView showView;
     FinnKino FK;
+    EditText fromTime;
+    EditText toTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,9 +46,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 android.R.layout.simple_spinner_dropdown_item, FK.listDates());
         dateSpinner.setAdapter(dateAdapter);
         showView = (ListView) findViewById(R.id.showList);
-
-
-
+        fromTime = (EditText) findViewById(R.id.fromTime);
+        toTime = (EditText) findViewById(R.id.toTime);
     }
 
 
@@ -66,12 +65,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             if (area.equals("1029") | area.equals("1014") | area.equals("1012") | area.equals("1002") | area.equals("1021")){
                 ArrayAdapter<String> showAdapter = new ArrayAdapter<>(this,
                         android.R.layout.simple_list_item_1,
-                        FK.getTheatre((int) thSpinner.getSelectedItemId()).getShowList(showReader.getXMLDocument(), date, true));
+                        FK.getTheatre((int) thSpinner.getSelectedItemId()).getShowList(showReader.getXMLDocument(),
+                                date, fromTime.getText().toString(), toTime.getText().toString(),  true));
                 showView.setAdapter(showAdapter);
             } else {
                 ArrayAdapter<String> showAdapter = new ArrayAdapter<>(this,
                         android.R.layout.simple_list_item_1,
-                        FK.getTheatre((int) thSpinner.getSelectedItemId()).getShowList(showReader.getXMLDocument(), date));
+                        FK.getTheatre((int) thSpinner.getSelectedItemId()).getShowList(showReader.getXMLDocument(),
+                                date, fromTime.getText().toString(), toTime.getText().toString(), false));
                 showView.setAdapter(showAdapter);
             }
 

@@ -82,5 +82,10 @@ public class FinnKino {
         return dateList;
     }
 
+    public ArrayList<String> searchByTitle(String title){
+        ArrayList<String> listOfMovies = new ArrayList<String>();
+
+    }
+
 
 }
