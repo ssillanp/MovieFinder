@@ -16,12 +16,14 @@ public class Theatre {
     private String ID;
     private String name;
     private ArrayList<MovieShow> shows;
+    private Boolean area;
 
     Theatre(int indx, String thID, String thName) {
         index = indx;
         ID = thID;
         name = thName;
         shows = new ArrayList<MovieShow>();
+        area = ID.equals("1029") | ID.equals("1014") | ID.equals("1012") | ID.equals("1002") | ID.equals("1021");
     }
 
     public int getIndex() {
@@ -57,7 +59,7 @@ public class Theatre {
         }
     }
 
-    public ArrayList<String> getShowList(Document doc, String date, String fromTime, String toTime, Boolean area) {
+    public ArrayList<String> getShowList(Document doc, String date, String fromTime, String toTime) {
         if (fromTime.equals("") | toTime.equals("")){
             fromTime = "00:00:01";
             toTime = "23:59:59";
@@ -82,5 +84,9 @@ public class Theatre {
             e.printStackTrace();
         }
         return showStringList;
+    }
+
+    public Boolean isArea(){
+        return area;
     }
 }

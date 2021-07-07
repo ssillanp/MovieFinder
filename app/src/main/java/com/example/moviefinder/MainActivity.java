@@ -51,7 +51,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
 
-
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
@@ -62,19 +61,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     "&dt=" + date + "&nrOfDays=1";
             System.out.println(showUrl);
             XMLReader showReader = new XMLReader(showUrl);
-            if (area.equals("1029") | area.equals("1014") | area.equals("1012") | area.equals("1002") | area.equals("1021")){
-                ArrayAdapter<String> showAdapter = new ArrayAdapter<>(this,
-                        android.R.layout.simple_list_item_1,
-                        FK.getTheatre((int) thSpinner.getSelectedItemId()).getShowList(showReader.getXMLDocument(),
-                                date, fromTime.getText().toString(), toTime.getText().toString(),  true));
-                showView.setAdapter(showAdapter);
-            } else {
-                ArrayAdapter<String> showAdapter = new ArrayAdapter<>(this,
-                        android.R.layout.simple_list_item_1,
-                        FK.getTheatre((int) thSpinner.getSelectedItemId()).getShowList(showReader.getXMLDocument(),
-                                date, fromTime.getText().toString(), toTime.getText().toString(), false));
-                showView.setAdapter(showAdapter);
-            }
+            ArrayAdapter<String> showAdapter = new ArrayAdapter<>(this,
+                    android.R.layout.simple_list_item_1,
+                    FK.getTheatre((int) thSpinner.getSelectedItemId()).getShowList(showReader.getXMLDocument(),
+                            date, fromTime.getText().toString(), toTime.getText().toString()));
+            showView.setAdapter(showAdapter);
 
 
         }
