@@ -42,15 +42,14 @@ public class Theatre {
             Node node = nList.item(i);
             if (node.getNodeType() == Node.ELEMENT_NODE) {
                 Element element = (Element) node;
-                System.out.println(name + ":" + element.getElementsByTagName("Title").item(0).getTextContent() +
-                        " - " + element.getElementsByTagName("dttmShowStart").item(0).getTextContent());
                 String title = element.getElementsByTagName("Title").item(0).getTextContent();
                 String auditorium = element.getElementsByTagName("TheatreAuditorium").item(0).getTextContent();
                 String dateStr = element.getElementsByTagName("dttmShowStart").item(0).getTextContent();
+                String theatreName = element.getElementsByTagName("Theatre").item(0).getTextContent();
                 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
                 try {
                     Date date = df.parse(dateStr);
-                    shows.add(new MovieShow(title, auditorium, date));
+                    shows.add(new MovieShow(title, auditorium, date, theatreName));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -58,11 +57,24 @@ public class Theatre {
         }
     }
 
-    public ArrayList<String> getShowList(Document doc) {
+    public ArrayList<String> getShowList(Document doc, String date) {
         ArrayList<String> showStringList = new ArrayList<String>();
         parseShows(doc);
-            for (MovieShow show:shows){
+        for (MovieShow show : shows) {
+            if (show.getDateString().equals(date)) {
                 showStringList.add(show.toString());
+            }
+        }
+        return showStringList;
+    }
+
+    public ArrayList<String> getShowList(Document doc, String date, Boolean area) {
+        ArrayList<String> showStringList = new ArrayList<String>();
+        parseShows(doc);
+        for (MovieShow show : shows) {
+            if (show.getDateString().equals(date)) {
+                showStringList.add(show + "\n" + show.getTheatreName().split(",")[0]);
+            }
         }
         return showStringList;
     }

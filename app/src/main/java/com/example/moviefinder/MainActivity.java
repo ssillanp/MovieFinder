@@ -25,7 +25,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     Spinner dateSpinner;
     ListView showView;
     FinnKino FK;
-    ArrayAdapter<String> showAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,8 +32,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         setContentView(R.layout.activity_main);
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-        FK = new FinnKino(readXML("https://www.finnkino.fi/xml/TheatreAreas/"),
-                readXML("https://www.finnkino.fi/xml/ScheduleDates/"));
+        XMLReader theatreAreasReader = new XMLReader("https://www.finnkino.fi/xml/TheatreAreas/");
+        XMLReader scheduleDateReader = new XMLReader("https://www.finnkino.fi/xml/ScheduleDates/");
+        FK = new FinnKino(theatreAreasReader.getXMLDocument(), scheduleDateReader.getXMLDocument());
         thSpinner = (Spinner) findViewById(R.id.thspinner);
         thSpinner.setOnItemSelectedListener(this);
         ArrayAdapter<String> thAdapter = new ArrayAdapter<>(this,
@@ -51,18 +51,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     }
 
-    public Document readXML(String urlString) {
-        try {
-            DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-            Document doc = builder.parse(urlString);
-            doc.getDocumentElement().normalize();
-            return doc;
-
-        } catch (ParserConfigurationException | IOException | SAXException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 
 
     @Override
@@ -74,10 +62,20 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             String showUrl = "https://www.finnkino.fi/xml/Schedule/?area=" + area +
                     "&dt=" + date + "&nrOfDays=1";
             System.out.println(showUrl);
-            ArrayAdapter<String> showAdapter = new ArrayAdapter<>(this,
-                    android.R.layout.simple_list_item_1,
-                    FK.getTheatre((int) thSpinner.getSelectedItemId()).getShowList(readXML(showUrl)));
-            showView.setAdapter(showAdapter);
+            XMLReader showReader = new XMLReader(showUrl);
+            if (area.equals("1029") | area.equals("1014") | area.equals("1012") | area.equals("1002") | area.equals("1021")){
+                ArrayAdapter<String> showAdapter = new ArrayAdapter<>(this,
+                        android.R.layout.simple_list_item_1,
+                        FK.getTheatre((int) thSpinner.getSelectedItemId()).getShowList(showReader.getXMLDocument(), date, true));
+                showView.setAdapter(showAdapter);
+            } else {
+                ArrayAdapter<String> showAdapter = new ArrayAdapter<>(this,
+                        android.R.layout.simple_list_item_1,
+                        FK.getTheatre((int) thSpinner.getSelectedItemId()).getShowList(showReader.getXMLDocument(), date));
+                showView.setAdapter(showAdapter);
+            }
+
+
         }
 
 

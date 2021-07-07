@@ -9,11 +9,13 @@ public class MovieShow {
     private String title;
     private String auditorium;
     private Date showDate;
+    private String theatreName;
 
-    MovieShow(String shTitle, String audit, Date shDate) {
+    MovieShow(String shTitle, String audit, Date shDate, String thName) {
         title = shTitle;
         auditorium = audit;
         showDate = shDate;
+        theatreName = thName;
     }
 
     public String getTitle() {
@@ -28,8 +30,12 @@ public class MovieShow {
         return showDate;
     }
 
+    public String getTheatreName() {
+        return theatreName;
+    }
+
     public String getDateString() {
-        SimpleDateFormat df = new SimpleDateFormat("dd:MM:yyyy");
+        SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy");
         return df.format(showDate);
     }
 
