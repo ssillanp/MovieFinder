@@ -15,42 +15,21 @@ public class FinnKino {
     private ArrayList<Theatre> theatres;
     private ArrayList<Date> schDates;
 
-    FinnKino(Document docTheatres, Document docSchDates) {
+    FinnKino() {
         /*
         Constructor for Class FinnKino
-        Parses from XML Documents the theatres and Available scheduled dates
          */
         theatres = new ArrayList<Theatre>();  // New arrayList to keep the Theatres
-//        System.out.println("Root Element:" + docTheatres.getDocumentElement().getNodeName());
-        NodeList nList = docTheatres.getDocumentElement().getElementsByTagName("TheatreArea");
-        for (int i = 0; i < nList.getLength(); i++) {
-            Node node = nList.item(i);
-            if (node.getNodeType() == Node.ELEMENT_NODE) {
-                Element element = (Element) node;
-                theatres.add(new Theatre(i, element.getElementsByTagName("ID").item(0).getTextContent(),
-                        element.getElementsByTagName("Name").item(0).getTextContent()));
-            }
-        }
-        System.out.println("HH");
         schDates = new ArrayList<Date>(); // New ArrayList to hold the available schedule dates
-//        System.out.println("Root Element:" + docSchDates.getDocumentElement().getNodeName());
-        nList = docSchDates.getDocumentElement().getElementsByTagName("dateTime");
-        for (int i = 0; i < nList.getLength(); i++) {
-            Node node = nList.item(i);
-            if (node.getNodeType() == Node.ELEMENT_NODE) {
-                Element element = (Element) node;
-                String dateStr = element.getTextContent();
-//                System.out.println(dateStr);
-                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-                try {
-                    Date schDay = df.parse(dateStr);
-                    schDates.add(schDay);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
 
-            }
-        }
+    }
+
+    public void addTheatres(ArrayList<Theatre> th){
+        theatres.addAll(th);
+    }
+
+    public void addDates(ArrayList<Date> dt){
+        schDates.addAll(dt);
     }
 
 

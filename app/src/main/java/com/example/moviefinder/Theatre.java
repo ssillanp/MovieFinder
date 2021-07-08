@@ -60,24 +60,21 @@ public class Theatre {
     }
 
     public ArrayList<String> getShowList(Document doc, String date, String fromTime, String toTime) {
-        if (fromTime.equals("") | toTime.equals("")){
-            fromTime = "00:00:01";
+        if (fromTime.equals("") | toTime.equals("")) {
+            fromTime = "00:00:00";
             toTime = "23:59:59";
         }
         ArrayList<String> showStringList = new ArrayList<String>();
         SimpleDateFormat stf = new SimpleDateFormat("dd.MM.yyyy'T'HH:mm:ss");
         parseShows(doc);
         try {
-            Date startDate = stf.parse(date +"T"+ fromTime);
-            Date toDate = stf.parse(date +"T"+ toTime);
-            System.out.println(date +"T"+ fromTime);
+            Date startDate = stf.parse(date + "T" + fromTime);
+            Date toDate = stf.parse(date + "T" + toTime);
+            System.out.println(date + "T" + fromTime);
             for (MovieShow show : shows) {
-                if (show.getDateString().equals(date)&startDate.before(show.getDate())&toDate.after(show.getDate())) {
-                    if (area){
-                        showStringList.add(show + "\n" + show.getTheatreName().split(",")[0]);
-                    } else {
-                        showStringList.add(show.toString());
-                    }
+                if (show.getDateString().equals(date) & startDate.before(show.getDate()) & toDate.after(show.getDate())) {
+                    showStringList.add(show + "\n" + show.getTheatreName());
+
                 }
             }
         } catch (ParseException e) {
@@ -86,7 +83,7 @@ public class Theatre {
         return showStringList;
     }
 
-    public Boolean isArea(){
+    public Boolean isArea() {
         return area;
     }
 }

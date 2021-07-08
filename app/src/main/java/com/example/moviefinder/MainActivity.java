@@ -33,9 +33,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         setContentView(R.layout.activity_main);
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
+        XMLParse parser = new XMLParse();
         XMLReader theatreAreasReader = new XMLReader("https://www.finnkino.fi/xml/TheatreAreas/");
         XMLReader scheduleDateReader = new XMLReader("https://www.finnkino.fi/xml/ScheduleDates/");
-        FK = new FinnKino(theatreAreasReader.getXMLDocument(), scheduleDateReader.getXMLDocument());
+        FK = new FinnKino();
+        FK.addTheatres(parser.parseTheatres(theatreAreasReader.getXMLDocument()));
+        FK.addDates(parser.parseDates(scheduleDateReader.getXMLDocument()));
         thSpinner = (Spinner) findViewById(R.id.thspinner);
         thSpinner.setOnItemSelectedListener(this);
         ArrayAdapter<String> thAdapter = new ArrayAdapter<>(this,
@@ -52,29 +55,27 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
 
     @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-        if (thSpinner.getSelectedItemId() > 0) {
+    public void onItemSelected(AdapterView<?> parent, View v, int position, long id) {
+        if (thSpinner.getSelectedItemId() != 0){
             Intent intent = new Intent(this, MainActivityListMovies.class);
             String area = FK.getTheatre((int) thSpinner.getSelectedItemId()).getID();
             String date = dateSpinner.getSelectedItem().toString();
-            String showUrl = "https://www.finnkino.fi/xml/Schedule/?area=" + area +
-                    "&dt=" + date + "&nrOfDays=1";
-            System.out.println(showUrl);
-            XMLReader showReader = new XMLReader(showUrl);
+            showURLBuilder showUrl = new showURLBuilder(area, date);
+            System.out.println(showUrl.getUrl());
+            XMLReader showReader = new XMLReader(showUrl.getUrl());
             intent.putStringArrayListExtra("SHOWLIST",
                     FK.getTheatre((int) thSpinner.getSelectedItemId()).getShowList(showReader.getXMLDocument(),
-                    date, fromTime.getText().toString(), toTime.getText().toString()));
+                            date, fromTime.getText().toString(), toTime.getText().toString()));
             startActivity(intent);
-
-
         }
-
 
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
+    }
 
+    public void searchByTitle(View v) {
+        thSpinner.performItemClick(v, 0, 0);
     }
 }
