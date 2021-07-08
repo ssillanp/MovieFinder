@@ -1,4 +1,8 @@
 package com.example.moviefinder;
+/*
+@author Sami Sillanpää
+LUT Olio.ohjelmointi. Viikkotehtävät Vko 9
+*/
 
 import android.content.Intent;
 import android.widget.ArrayAdapter;

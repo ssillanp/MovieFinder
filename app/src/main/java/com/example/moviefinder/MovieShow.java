@@ -1,10 +1,18 @@
 package com.example.moviefinder;
 
+/*
+@author Sami Sillanpää
+LUT Olio.ohjelmointi. Viikkotehtävät Vko 9
+ */
+
 import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class MovieShow {
+    /*
+    Class to hold data for individual show.
+     */
 
     private String ID;
     private String title;

@@ -1,7 +1,15 @@
 package com.example.moviefinder;
+/*
+@author Sami Sillanpää
+LUT Olio.ohjelmointi. Viikkotehtävät Vko 9
+ */
+
 
 
 public class showURLBuilder {
+    /*
+    Class to construct full URL with parameters for show data XML GET
+     */
 
     private String baseUrl;
     private String area = "";

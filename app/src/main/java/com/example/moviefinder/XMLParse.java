@@ -1,5 +1,10 @@
 package com.example.moviefinder;
 
+/*
+@author Sami Sillanpää
+LUT Olio.ohjelmointi. Viikkotehtävät Vko 9
+ */
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -11,9 +16,12 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class XMLParse {
-
+    /*
+    Class for parsing Finnkinos XML data
+     */
 
     public ArrayList<Theatre> parseTheatres(Document doc){
+        //Parses theatre data
         ArrayList<Theatre> theatres = new ArrayList<>();
         NodeList nList = doc.getDocumentElement().getElementsByTagName("TheatreArea");
         for (int i = 0; i < nList.getLength(); i++) {
@@ -28,6 +36,7 @@ public class XMLParse {
     }
 
     public ArrayList<Date> parseDates(Document doc){
+        // Parses Dates
         ArrayList<Date> schDates = new ArrayList<>();
         NodeList nList = doc.getDocumentElement().getElementsByTagName("dateTime");
         for (int i = 0; i < nList.getLength(); i++) {

@@ -1,5 +1,10 @@
 package com.example.moviefinder;
 
+/*
+@author Sami Sillanpää
+LUT Olio.ohjelmointi. Viikkotehtävät Vko 9
+ */
+
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
@@ -9,6 +14,9 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 
 public class XMLReader {
+    /*
+    Class to read from URL.
+     */
     private Document document;
     private String URL;
 
@@ -31,6 +39,8 @@ public class XMLReader {
     }
 
     public Document getXMLDocument(){
+
+        // returns an XML Document.
         return document;
     }
 }

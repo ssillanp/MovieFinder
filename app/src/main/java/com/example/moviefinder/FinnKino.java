@@ -1,5 +1,10 @@
 package com.example.moviefinder;
 
+/*
+@author Sami Sillanpää
+LUT Olio.ohjelmointi. Viikkotehtävät Vko 9
+ */
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -11,6 +16,9 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class FinnKino {
+    /*
+    Class to hold Theatres and available show dates.
+     */
 
     private ArrayList<Theatre> theatres;
     private ArrayList<Date> schDates;
@@ -33,7 +41,7 @@ public class FinnKino {
     }
 
 
-    public Theatre getTheatre(int index) {
+    public Theatre getTheatre(int index) { // Index number (not ID) in XML output
         for (Theatre theatre : theatres) {
             if (theatre.getIndex() == index) {
                 return theatre;
@@ -42,14 +50,6 @@ public class FinnKino {
         return null;
     }
 
-    public Theatre getTheatre(String id) {
-        for (Theatre theatre : theatres) {
-            if (theatre.getID().equals(id)) {
-                return theatre;
-            }
-        }
-        return null;
-    }
 
     public ArrayList<Theatre> getAllTheatres(){
         return theatres;
