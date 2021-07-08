@@ -52,7 +52,7 @@
             android:inputType="textPersonName"
             android:text="title"
             android:ems="10"
-            android:id="@+id/editTextTextPersonName"
+            android:id="@+id/txtTitle"
             app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@+id/fromTime"
             app:layout_constraintHorizontal_bias="0.752" app:layout_constraintVertical_bias="0.062"/>
@@ -60,14 +60,14 @@
             android:text="title:"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:id="@+id/textViewtitle"
-            app:layout_constraintEnd_toStartOf="@+id/editTextTextPersonName"
+            app:layout_constraintEnd_toStartOf="@+id/txtTitle"
             app:layout_constraintStart_toStartOf="parent" app:layout_constraintHorizontal_bias="0.826"
             app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintVertical_bias="0.289"/>
     <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:id="@+id/search"
-            app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName"
+            app:layout_constraintTop_toBottomOf="@+id/txtTitle"
             app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" app:layout_constraintHorizontal_bias="0.926"
             app:layout_constraintVertical_bias="0.053" app:icon="@android:drawable/ic_menu_search"

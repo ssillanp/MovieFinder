@@ -2,21 +2,12 @@ package com.example.moviefinder;
 
 import android.content.Intent;
 import android.os.StrictMode;
-import android.text.Editable;
 import android.view.View;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -26,6 +17,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     FinnKino FK;
     EditText fromTime;
     EditText toTime;
+    EditText title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,12 +43,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         dateSpinner.setAdapter(dateAdapter);
         fromTime = (EditText) findViewById(R.id.fromTime);
         toTime = (EditText) findViewById(R.id.toTime);
+        title = (EditText) findViewById(R.id.txtTitle);
     }
 
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View v, int position, long id) {
-        if (thSpinner.getSelectedItemId() != 0){
+        if (thSpinner.getSelectedItemId() != 0) {
             Intent intent = new Intent(this, MainActivityListMovies.class);
             String area = FK.getTheatre((int) thSpinner.getSelectedItemId()).getID();
             String date = dateSpinner.getSelectedItem().toString();
@@ -65,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             XMLReader showReader = new XMLReader(showUrl.getUrl());
             intent.putStringArrayListExtra("SHOWLIST",
                     FK.getTheatre((int) thSpinner.getSelectedItemId()).getShowList(showReader.getXMLDocument(),
-                            date, fromTime.getText().toString(), toTime.getText().toString()));
+                            date, fromTime.getText().toString(), toTime.getText().toString(), ""));
             startActivity(intent);
         }
 
@@ -76,6 +69,29 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     public void searchByTitle(View v) {
-        thSpinner.performItemClick(v, 0, 0);
+        System.out.println("CLICK");
+        Intent intent = new Intent(this, MainActivityListMovies.class);
+        ArrayList<String> results = new ArrayList<>();
+        String date = dateSpinner.getSelectedItem().toString();
+        String showTitle = title.getText().toString();
+        int theatreID = (int) thSpinner.getSelectedItemId();
+        if (theatreID == 0) {
+            for (Theatre theatre : FK.getAllTheatres()) {
+                if (!theatre.isArea()) {
+                    showURLBuilder urli = new showURLBuilder(theatre.getID(), date);
+                    XMLReader reader = new XMLReader(urli.getUrl());
+                    results.addAll(theatre.getShowList(reader.getXMLDocument(), date, "", "", showTitle));
+                }
+            }
+        } else {
+            Theatre theatre = FK.getTheatre(theatreID);
+            showURLBuilder urli = new showURLBuilder(theatre.getID(), date);
+            XMLReader reader = new XMLReader(urli.getUrl());
+            results.addAll(theatre.getShowList(reader.getXMLDocument(), date, "", "", showTitle));
+        }
+        intent.putStringArrayListExtra("SHOWLIST", results);
+        startActivity(intent);
+
+//        thSpinner.performItemClick(v, 0, 0);
     }
 }

@@ -42,6 +42,19 @@ public class FinnKino {
         return null;
     }
 
+    public Theatre getTheatre(String id) {
+        for (Theatre theatre : theatres) {
+            if (theatre.getID().equals(id)) {
+                return theatre;
+            }
+        }
+        return null;
+    }
+
+    public ArrayList<Theatre> getAllTheatres(){
+        return theatres;
+    }
+
     public ArrayList<String> listTheatres() {
         ArrayList<String> theatreList = new ArrayList<String>();
         for (Theatre theatre : theatres) {

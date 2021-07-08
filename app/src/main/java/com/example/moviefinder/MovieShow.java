@@ -6,12 +6,14 @@ import java.util.Date;
 
 public class MovieShow {
 
+    private String ID;
     private String title;
     private String auditorium;
     private Date showDate;
     private String theatreName;
 
-    MovieShow(String shTitle, String audit, Date shDate, String thName) {
+    MovieShow(String id, String shTitle, String audit, Date shDate, String thName) {
+        ID = id;
         title = shTitle;
         auditorium = audit;
         showDate = shDate;
@@ -47,6 +49,10 @@ public class MovieShow {
     @Override
     public String toString() {
         return title + " klo: " + this.getStartTimeString() + " " + auditorium;
+    }
+
+    public String getId() {
+        return ID;
     }
 }
 

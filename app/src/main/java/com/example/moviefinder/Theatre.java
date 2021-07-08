@@ -44,6 +44,7 @@ public class Theatre {
             Node node = nList.item(i);
             if (node.getNodeType() == Node.ELEMENT_NODE) {
                 Element element = (Element) node;
+                String ID = element.getElementsByTagName("ID").item(0).getTextContent();
                 String title = element.getElementsByTagName("Title").item(0).getTextContent();
                 String auditorium = element.getElementsByTagName("TheatreAuditorium").item(0).getTextContent();
                 String dateStr = element.getElementsByTagName("dttmShowStart").item(0).getTextContent();
@@ -51,7 +52,10 @@ public class Theatre {
                 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
                 try {
                     Date date = df.parse(dateStr);
-                    shows.add(new MovieShow(title, auditorium, date, theatreName));
+                    if (!this.showExists(ID)) {
+                        shows.add(new MovieShow(ID, title, auditorium, date, theatreName));
+
+                    }
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -59,7 +63,7 @@ public class Theatre {
         }
     }
 
-    public ArrayList<String> getShowList(Document doc, String date, String fromTime, String toTime) {
+    public ArrayList<String> getShowList(Document doc, String date, String fromTime, String toTime, String title) {
         if (fromTime.equals("") | toTime.equals("")) {
             fromTime = "00:00:00";
             toTime = "23:59:59";
@@ -72,18 +76,32 @@ public class Theatre {
             Date toDate = stf.parse(date + "T" + toTime);
             System.out.println(date + "T" + fromTime);
             for (MovieShow show : shows) {
-                if (show.getDateString().equals(date) & startDate.before(show.getDate()) & toDate.after(show.getDate())) {
-                    showStringList.add(show + "\n" + show.getTheatreName());
-
+                if (!(title.equals("") | title.equals("title"))) {
+                    if (show.getDateString().equals(date) & show.getTitle().equals(title)) {
+                        showStringList.add(show + "\n" + show.getTheatreName());
+                    }
+                } else {
+                    if (show.getDateString().equals(date) & startDate.before(show.getDate()) & toDate.after(show.getDate())) {
+                        showStringList.add(show + "\n" + show.getTheatreName());
+                    }
                 }
             }
-        } catch (ParseException e) {
-            e.printStackTrace();
+            } catch(ParseException e){
+                e.printStackTrace();
+            }
+            return showStringList;
         }
-        return showStringList;
-    }
 
-    public Boolean isArea() {
-        return area;
+        public boolean isArea () {
+            return area;
+        }
+
+        public boolean showExists (String id){
+            for (MovieShow show : shows) {
+                if (show.getId().equals(id)) {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
-}
